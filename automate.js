@@ -1,12 +1,11 @@
-/**
- * Creates task input modal with editable rows, dropdowns, and a start button.
- */
+// automate.js
+
 export function createModal({ defaultTasks, projectOptions, activityOptions }) {
   const style = document.createElement("style");
   style.textContent = `
     #taskModalOverlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.6); z-index: 9998;
+      background: rgba(0,0,0,0.6); z-index: 9998;
     }
     #taskModal {
       position: fixed; top: 10%; left: 50%;
@@ -19,7 +18,7 @@ export function createModal({ defaultTasks, projectOptions, activityOptions }) {
     }
     #taskModal table { width: 100%; border-collapse: collapse; }
     #taskModal th, #taskModal td { border: 1px solid #ccc; padding: 6px; }
-    #taskModal th { background: #f0f0f0; }
+    #taskModal th { background: #f9f9f9; }
     #taskModal input, #taskModal select { width: 100%; }
     #startBtn { float: left; margin-top: 10px; padding: 6px 12px; }
     #addRowBtn { float: right; margin-top: 10px; padding: 6px 12px; }
@@ -78,7 +77,11 @@ export function createModal({ defaultTasks, projectOptions, activityOptions }) {
   }
 
   modal.querySelector("#addRowBtn").addEventListener("click", () => {
-    currentTasks.push({ project: projectOptions[0], activity: activityOptions[0], startTime: "", endTime: "", breakHrs: "", note: "" });
+    currentTasks.push({
+      project: projectOptions[0],
+      activity: activityOptions[0],
+      startTime: "", endTime: "", breakHrs: "", note: ""
+    });
     renderRows(currentTasks);
   });
 
@@ -99,9 +102,7 @@ export function createModal({ defaultTasks, projectOptions, activityOptions }) {
   return { modal, overlay, getTasks };
 }
 
-/**
- * Fills form with given tasks on page and handles submission & confirmation.
- */
+
 export async function fillTasksOnPage(tasks) {
   const wait = ms => new Promise(res => setTimeout(res, ms));
 
@@ -184,13 +185,12 @@ export async function fillTasksOnPage(tasks) {
       await fillBlock(i + 1, tasks[i]);
     }
 
-    // ✅ Submit and confirm
-    // const submitBtn = await waitForXPath("//button[normalize-space()='Submit for approval']");
-    // submitBtn.click();
-    // await wait(1000);
+    const submitBtn = await waitForXPath("//button[normalize-space()='Submit for approval']");
+    submitBtn.click();
+    await wait(1000);
 
-    // const confirmBtn = await waitForXPath("//button[normalize-space()='Confirm']");
-    // confirmBtn.click();
+    const confirmBtn = await waitForXPath("//button[normalize-space()='Confirm']");
+    confirmBtn.click();
   } catch (err) {
     alert("❌ Error: " + err.message);
     console.error(err);
