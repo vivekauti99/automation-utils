@@ -1,6 +1,5 @@
 /**
- * Creates a task editing modal with editable task rows.
- * Includes add/remove functionality and dropdowns for Project/Activity.
+ * Creates task input modal with editable rows, dropdowns, and a start button.
  */
 export function createModal({ defaultTasks, projectOptions, activityOptions }) {
   const style = document.createElement("style");
@@ -18,29 +17,12 @@ export function createModal({ defaultTasks, projectOptions, activityOptions }) {
       box-shadow: 0 0 20px #0005;
       font-family: sans-serif;
     }
-    #taskModal table {
-      width: 100%; border-collapse: collapse;
-    }
-    #taskModal th, #taskModal td {
-      border: 1px solid #ccc;
-      padding: 6px;
-    }
-    #taskModal th {
-      background: #f0f0f0;
-    }
-    #taskModal input, #taskModal select {
-      width: 100%;
-    }
-    #startBtn {
-      float: left;
-      margin-top: 10px;
-      padding: 6px 12px;
-    }
-    #addRowBtn {
-      float: right;
-      margin-top: 10px;
-      padding: 6px 12px;
-    }
+    #taskModal table { width: 100%; border-collapse: collapse; }
+    #taskModal th, #taskModal td { border: 1px solid #ccc; padding: 6px; }
+    #taskModal th { background: #f0f0f0; }
+    #taskModal input, #taskModal select { width: 100%; }
+    #startBtn { float: left; margin-top: 10px; padding: 6px 12px; }
+    #addRowBtn { float: right; margin-top: 10px; padding: 6px 12px; }
   `;
   document.head.appendChild(style);
 
@@ -118,8 +100,7 @@ export function createModal({ defaultTasks, projectOptions, activityOptions }) {
 }
 
 /**
- * Fills tasks on the actual page by locating form fields and setting values.
- * Includes form submission at the end.
+ * Fills form with given tasks on page and handles submission & confirmation.
  */
 export async function fillTasksOnPage(tasks) {
   const wait = ms => new Promise(res => setTimeout(res, ms));
@@ -203,7 +184,7 @@ export async function fillTasksOnPage(tasks) {
       await fillBlock(i + 1, tasks[i]);
     }
 
-    // ✅ SUBMIT TASKS
+    // ✅ Submit and confirm
     // const submitBtn = await waitForXPath("//button[normalize-space()='Submit for approval']");
     // submitBtn.click();
     // await wait(1000);
